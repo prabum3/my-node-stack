@@ -1,0 +1,31 @@
+name: "deploy"
+on: workflow_dispatch
+
+jobs:
+  job: 
+    runs-on: ubuntu-latest
+    name: "run script"
+    
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      
+      - name: use node.js v14
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+          check-latest: true
+          registry-url: https://registry.npmjs.org/
+      
+      - name: npm install 
+        run: npm install @octokit/core
+      
+      - name: run script
+        run: node ./github/test-actions.js
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+          
+
+   
